@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+	<title>Cadastro de Procedimento</title>
+</h:head>
+<h:body>
+	<h:form>
+		<h:commandLink value="Lista de Procedimento" action="listarProcedimento.xhtml" immediate="true"/>
+		<h1>Cadastro de Procedimento</h1>
+		<h:messages/>
+		<h:panelGrid columns="2">
+			<h:outputText value="Descrição do procedimento: *" />
+			<h:inputText value="#{procedimentoControllerJoanatas.procedimentoJoanatas.procedimento}"
+			required="true"
+			requiredMessage="O campo Descrição do procedimento é obrigatorio"
+			maxlength="60" />
+			
+			<h:outputText value="Data início do procedimento: *" />
+			<h:inputText value="#{procedimentoControllerJoanatas.procedimentoJoanatas.dataInicio}"
+			required="true"
+			requiredMessage="O campo Data início do procedimento é obrigatorio">
+			<f:convertDateTime pattern="dd/MM/yyy" timeZone="America/Sao_Paulo"/>
+			</h:inputText>
+			
+			<h:outputText value="Data fim do procedimento: *" />
+			<h:inputText value="#{procedimentoControllerJoanatas.procedimentoJoanatas.dataFim}"
+			required="true"
+			requiredMessage="O campo Data fim do procedimento é obrigatorio">
+			<f:convertDateTime pattern="dd/MM/yyy" timeZone="America/Sao_Paulo"/>
+			</h:inputText>
+			
+			<h:outputText value="Paciente: *" />
+			<h:inputText value="#{procedimentoControllerJoanatas.procedimentoJoanatas.paciente}"
+			required="true"
+			requiredMessage="O campo Paciente é obrigatorio" 
+			maxlength="30" />
+			
+			<h:outputText value="Quantidade de exames: *" />
+			<h:inputText value="#{procedimentoControllerJoanatas.procedimentoJoanatas.quantidade}"
+			required="true"
+			requiredMessage="O campo Quantidade de exames é obrigatorio">
+			<f:validateDoubleRange minimum="2" maximum="99"/>
+			</h:inputText>
+			
+			<h:outputText value="Valor do procedimento: *" />
+			<h:inputText value="#{procedimentoControllerJoanatas.procedimentoJoanatas.valor}"
+			required="true"
+			requiredMessage="O campo Valor do procedimento é obrigatorio">
+			<f:validateDoubleRange minimum="1" maximum="9000"/>
+			</h:inputText>
+			
+			<h:commandButton value="Salvar" action="#{procedimentoControllerJoanatas.salvar}"/>
+			
+			<h:commandButton value="Limpar" action="cadastroProcedimento.xhtml" 
+			actionListener="#{procedimentoControllerJoanatas.limparCampos}"
+			immediate="true"/>
+		</h:panelGrid>
+	</h:form>
+</h:body>
+
+</html>
