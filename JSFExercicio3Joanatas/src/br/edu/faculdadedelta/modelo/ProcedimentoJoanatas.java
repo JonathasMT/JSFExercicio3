@@ -83,7 +83,22 @@ public class ProcedimentoJoanatas {
 	}
 	
 	public double getValorTotal() {
-		return valor * quantidade;
+		double total = valor*quantidade;
+		return total-getDesconto();
+	}
+	
+	public double getDesconto() {
+		double total = valor*quantidade;
+		double dias = (getDataFim().getTime() - getDataInicio().getTime()) / 8.64e+7;
+		double desconto = 0;
+		
+		if(dias>2) {
+			desconto += 0.025*total;
+		}
+		if(getValor()>2000) {
+			desconto += 0.015*total;
+		}
+		return desconto;
 	}
 
 	@Override

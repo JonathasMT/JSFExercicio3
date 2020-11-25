@@ -14,6 +14,13 @@
 		<h1>Cadastro de Procedimento</h1>
 		<h:messages/>
 		<h:panelGrid columns="2">
+		
+			<h:outputText value="Paciente: *" />
+			<h:inputText value="#{procedimentoControllerJoanatas.procedimentoJoanatas.paciente}"
+			required="true"
+			requiredMessage="O campo Paciente é obrigatorio" 
+			maxlength="30" />
+			
 			<h:outputText value="Descrição do procedimento: *" />
 			<h:inputText value="#{procedimentoControllerJoanatas.procedimentoJoanatas.procedimento}"
 			required="true"
@@ -34,12 +41,6 @@
 			<f:convertDateTime pattern="dd/MM/yyy" timeZone="America/Sao_Paulo"/>
 			</h:inputText>
 			
-			<h:outputText value="Paciente: *" />
-			<h:inputText value="#{procedimentoControllerJoanatas.procedimentoJoanatas.paciente}"
-			required="true"
-			requiredMessage="O campo Paciente é obrigatorio" 
-			maxlength="30" />
-			
 			<h:outputText value="Quantidade de exames: *" />
 			<h:inputText value="#{procedimentoControllerJoanatas.procedimentoJoanatas.quantidade}"
 			required="true"
@@ -51,11 +52,11 @@
 			<h:inputText value="#{procedimentoControllerJoanatas.procedimentoJoanatas.valor}"
 			required="true"
 			requiredMessage="O campo Valor do procedimento é obrigatorio">
-			<f:validateDoubleRange minimum="1" maximum="9000"/>
+			<f:validateDoubleRange minimum="0.01" maximum="9000"/>
+			<f:convertNumber pattern="#,##0.00"/>
 			</h:inputText>
 			
 			<h:commandButton value="Salvar" action="#{procedimentoControllerJoanatas.salvar}"/>
-			
 			<h:commandButton value="Limpar" action="cadastroProcedimento.xhtml" 
 			actionListener="#{procedimentoControllerJoanatas.limparCampos}"
 			immediate="true"/>

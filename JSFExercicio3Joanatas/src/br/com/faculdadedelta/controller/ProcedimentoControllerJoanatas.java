@@ -22,6 +22,9 @@ public class ProcedimentoControllerJoanatas {
 	private ProcedimentoJoanatas procedimento = new ProcedimentoJoanatas();
 	private ProcedimentoDaoJoanatas dao = new ProcedimentoDaoJoanatas();
 	
+	private static final String PAGINA_CADASTRO = "cadastroProcedimento.xhtml";
+	private static final String PAGINA_LISTAR = "listarProcedimento.xhtml";
+	
 	public ProcedimentoJoanatas getProcedimentoJoanatas() {
 		return procedimento;
 	}
@@ -35,58 +38,50 @@ public class ProcedimentoControllerJoanatas {
 	
 	public String salvar() throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		Date limite = sdf.parse("01/01/2022");
+		Date limite = sdf.parse("01/01/2022");				
 		try {
 			if(procedimento.getDataInicio().after(new Date())) {
 				if(procedimento.getDataInicio().before(limite)) {
 					if(procedimento.getDataInicio().before(procedimento.getDataFim())) {
 						if(procedimento.getId() == null) {
 							dao.incluir(procedimento);
-							FacesMessage mensagem = new FacesMessage("Inclusão realizada com sucesso!");
-							FacesContext.getCurrentInstance().addMessage(null, mensagem);
+							exibirMensagem("Inclusão realizada com sucesso!");
 							limparCampos();
 						} else {
 							dao.alterar(procedimento);
-							FacesMessage mensagem = new FacesMessage("Alteração realizada com sucesso!");
-							FacesContext.getCurrentInstance().addMessage(null, mensagem);
+							exibirMensagem("Alteração realizada com sucesso!");
 							limparCampos();
 						}
 					}else {
-						FacesMessage mensagem = new FacesMessage("A Data de Início deve ser menor que a Data de Fim.");
-						FacesContext.getCurrentInstance().addMessage(null, mensagem);
+						exibirMensagem("A Data de Início deve ser menor que a Data de Fim.");
 					}
 				}else {
-					FacesMessage mensagem = new FacesMessage("A Data de Início deve ser menor que 01/01/2022");
-					FacesContext.getCurrentInstance().addMessage(null, mensagem);
+					exibirMensagem("A Data de Início deve ser menor que 01/01/2022");
 				}
 			}else {
-				FacesMessage mensagem = new FacesMessage("A Data de Início deve ser maior que a data de hoje.");
-				FacesContext.getCurrentInstance().addMessage(null, mensagem);
+				exibirMensagem("A Data de Início deve ser maior que a data de hoje.");
 			}
 		} catch (ClassNotFoundException | SQLException e) {
-			FacesMessage mensagem = new FacesMessage("Erro ao realizar a operação. Tente novamente mais tarde. " + e.getMessage());
-			FacesContext.getCurrentInstance().addMessage(null, mensagem);
+			exibirMensagem("Erro ao realizar a operação. Tente novamente mais tarde. " + e.getMessage());
 			e.printStackTrace();
 		}
-		return "cadastroProcedimento.xhtml";
+		return PAGINA_CADASTRO;
 	}
 	
 	public String editar() {
-		return "cadastroProcedimento.xhtml";
+		return PAGINA_CADASTRO;
 	}
 	
 	public String excluir() {
 		try {
 			dao.excluir(procedimento);
-			FacesMessage mensagem = new FacesMessage("Exclusão realizada com sucesso!");
-			FacesContext.getCurrentInstance().addMessage(null, mensagem);
+			exibirMensagem("Exclusão realizada com sucesso!");
 			limparCampos();
 		} catch (ClassNotFoundException | SQLException e) {
-			FacesMessage mensagem = new FacesMessage("Erro ao realizar a operação. Tente novamente mais tarde. " + e.getMessage());
-			FacesContext.getCurrentInstance().addMessage(null, mensagem);
+			exibirMensagem("Erro ao realizar a operação. Tente novamente mais tarde. " + e.getMessage());
 			e.printStackTrace();
 		}
-		return "listarProcedimento.xhtml";
+		return PAGINA_LISTAR;
 	}
 	
 	public List<ProcedimentoJoanatas> getLista() {
@@ -94,10 +89,14 @@ public class ProcedimentoControllerJoanatas {
 		try {
 			listaRetorno = dao.listar();
 		} catch (ClassNotFoundException | SQLException e) {
-			FacesMessage mensagem = new FacesMessage("Erro ao realizar a operação. Tente novamente mais tarde. " + e.getMessage());
-			FacesContext.getCurrentInstance().addMessage(null, mensagem);
+			exibirMensagem("Erro ao realizar a operação. Tente novamente mais tarde. " + e.getMessage());
 			e.printStackTrace();
 		}
 		return listaRetorno;
+	}
+	
+	public void exibirMensagem(String msg) {
+		FacesMessage mensagem = new FacesMessage(msg);
+		FacesContext.getCurrentInstance().addMessage(null, mensagem);
 	}
 }

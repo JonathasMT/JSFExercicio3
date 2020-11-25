@@ -49,6 +49,14 @@
 	</h:column>
 	<h:column>
 		<f:facet name="header">
+			<h:outputText value="Desconto"/>
+		</f:facet>
+		<h:outputText value="#{procedimento.desconto}">
+			<f:convertNumber pattern="#,##0.00"/>
+		</h:outputText>
+	</h:column>
+	<h:column>
+		<f:facet name="header">
 			<h:outputText value="Valor Total"/>
 		</f:facet>
 		<h:outputText value="#{procedimento.valorTotal}">

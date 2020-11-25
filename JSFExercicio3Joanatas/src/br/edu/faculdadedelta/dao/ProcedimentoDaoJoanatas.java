@@ -13,8 +13,7 @@ import br.edu.faculdadedelta.util.Conexao;
 public class ProcedimentoDaoJoanatas {
 
 	public void incluir(ProcedimentoJoanatas procedimento) throws ClassNotFoundException, SQLException {
-		Conexao conexao = new Conexao();
-		Connection conn = conexao.conectarNoBanco();
+		Connection conn = Conexao.conectarNoBanco();
 		String sql = "INSERT INTO procedimentos(" + 
 				"	paciente_desc, procedimento_desc, "
 				+ "valor_procedimento, data_inicio_procedimento, "
@@ -29,14 +28,11 @@ public class ProcedimentoDaoJoanatas {
 	    ps.setInt(6, procedimento.getQuantidade());
 	    
 	    ps.executeUpdate();
-	    
-	    ps.close();
-	    conn.close();
+	    Conexao.fecharConexao(null, ps ,conn);
 	}
 	
 	public void alterar(ProcedimentoJoanatas procedimento) throws ClassNotFoundException, SQLException {
-		Conexao conexao = new Conexao();
-		Connection conn = conexao.conectarNoBanco();
+		Connection conn = Conexao.conectarNoBanco();
 		String sql = "UPDATE procedimentos" + 
 				"	SET paciente_desc=?, "
 				+ "procedimento_desc=?, valor_procedimento=?, "
@@ -53,27 +49,21 @@ public class ProcedimentoDaoJoanatas {
 	    ps.setLong(7, procedimento.getId());
 	    
 	    ps.executeUpdate();
-	    
-	    ps.close();
-	    conn.close();
+	    Conexao.fecharConexao(null, ps ,conn);
 	}
 	
 	public void excluir(ProcedimentoJoanatas procedimento) throws ClassNotFoundException, SQLException {
-		Conexao conexao = new Conexao();
-		Connection conn = conexao.conectarNoBanco();
+		Connection conn = Conexao.conectarNoBanco();
 		String sql = "DELETE FROM procedimentos WHERE id_procedimento=?";
 		PreparedStatement ps = conn.prepareStatement(sql);
 	    ps.setLong(1, procedimento.getId());
 	    
 	    ps.executeUpdate();
-	    
-	    ps.close();
-	    conn.close();
+	    Conexao.fecharConexao(null, ps ,conn);
 	}
 	
 	public List<ProcedimentoJoanatas> listar() throws ClassNotFoundException, SQLException {
-		Conexao conexao = new Conexao();
-		Connection conn = conexao.conectarNoBanco();
+		Connection conn = Conexao.conectarNoBanco();
 		
 		String sql = "SELECT id_procedimento, paciente_desc, "
 				+ "procedimento_desc, valor_procedimento, "
@@ -95,11 +85,9 @@ public class ProcedimentoDaoJoanatas {
 			procedimento.setQuantidade(rs.getInt("quantidade_exame_procedimento"));
 			listaRetorno.add(procedimento);
 		}
-		rs.close();
-		ps.close();
-		conn.close();
+		Conexao.fecharConexao(rs, ps ,conn);
 		
 		return listaRetorno;
 	}
-
+	
 }
